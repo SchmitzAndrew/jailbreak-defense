@@ -1,3 +1,21 @@
-/venv
+# Virtual Environment
+venv/
 .env
-/__pycache__
+.venv
+ENV/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE
+.idea/
+.vscode/
+
+# Existing DSC_180A specific ignores
+# DSC_180A
+DSC_180A/venv
+DSC_180A/.env
+DSC_180A/__pycache__
