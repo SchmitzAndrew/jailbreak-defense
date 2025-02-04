@@ -5,6 +5,7 @@ import numpy as np
 from tqdm import tqdm
 from rapidfuzz import fuzz
 
+
 # Load and process jailbreak dataset
 jailbreak_dataset = load_dataset('TrustAIRLab/in-the-wild-jailbreak-prompts', 'jailbreak_2023_05_07')['train']
 jailbreak_df = pd.DataFrame(jailbreak_dataset)
@@ -12,6 +13,8 @@ jailbreak_df = pd.DataFrame(jailbreak_dataset)
 print("\nJailbreak Dataset Info:")
 print(f"Total rows: {len(jailbreak_df)}")
 print(f"Unique prompts: {jailbreak_df['prompt'].nunique()}")
+print("\nSample of jailbreak prompts:")
+print(jailbreak_df[['prompt']].head(3))
 
 # Remove exact duplicates from jailbreak dataset
 jailbreak_df_unique = jailbreak_df.drop_duplicates(subset=['prompt'])
@@ -70,8 +73,8 @@ num_jailbreak = len(jailbreak_df_fuzzy_unique)
 regular_df_sampled = regular_df.sample(n=num_jailbreak, random_state=42)
 
 # Add labels to both datasets
-jailbreak_df_fuzzy_unique['label'] = 1  # 1 for jailbreak
-regular_df_sampled['label'] = 0  # 0 for regular
+jailbreak_df_fuzzy_unique['label'] = "jailbreak"
+regular_df_sampled['label'] = "safe"
 
 # Combine datasets
 combined_df = pd.concat([jailbreak_df_fuzzy_unique, regular_df_sampled]).sample(frac=1, random_state=42)
@@ -80,30 +83,33 @@ combined_df = pd.concat([jailbreak_df_fuzzy_unique, regular_df_sampled]).sample(
 combined_dataset = Dataset.from_pandas(combined_df)
 
 # Define the prompt template
-instruction_prompt = """Below is an instruction or prompt. Determine if it is a safe, regular prompt or a jailbreak attempt.
+instruction_prompt = """Below is an instruction or prompt. Determine if it is a safe, regular prompt to a large language model or a jailbreak attempt.
 
 ### Instruction:
 {}
 
 ### Input:
-{}
+
 
 ### Response:
 {}"""
 
-EOS_TOKEN = tokenizer.eos_token  # Must add EOS_TOKEN
+EOS_TOKEN = "<|endoftext|>"  # temporary solution since we're not in the jupyter notebook
 
 def formatting_prompts_func(examples):
     prompts = examples["prompt"]
     # Create empty inputs since we don't have input context
     inputs = [""] * len(prompts)
-    # Use labels as responses
-    responses = ["jailbreak attempt" if label == 1 else "regular prompt" for label in examples["label"]]
-    
+    # Use detailed responses based on the label
+    responses = []
+    for label in examples["label"]:
+        if label == "jailbreak":
+            responses.append("jailbreak")
+        else:
+            responses.append("safe")
     texts = []
     for prompt, input_text, response in zip(prompts, inputs, responses):
-        # Must add EOS_TOKEN, otherwise generation will go on forever!
-        text = instruction_prompt.format(prompt, input_text, response) + EOS_TOKEN
+        text = instruction_prompt.format(prompt, response) + EOS_TOKEN
         texts.append(text)
     return {"text": texts}
 
@@ -116,4 +122,8 @@ print(f"Total examples: {len(formatted_dataset)}")
 print(f"Jailbreak examples: {len(jailbreak_df_fuzzy_unique)}")
 print(f"Regular examples: {len(regular_df_sampled)}")
 print("\nLabel distribution:")
-print(combined_dataset['label'].value_counts()) 
+print(pd.Series(combined_dataset['label']).value_counts())
+
+# Display samples from the final formatted dataset
+print("\nSample from formatted dataset:")
+print(formatted_dataset[:3]['text']) 
