@@ -6,52 +6,229 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jailbreak Defense Project</title>
   <style>
+    :root {
+      --dark-blue: #1C3D5A;
+      --light-blue: #2C5282;
+      --accent: #4A90E2;
+      --text-light: #E8F0FE;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       line-height: 1.6;
       margin: 0;
       padding: 0;
       color: #333;
+      background-color: #f8f9fa;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem;
+      position: relative;
     }
 
     header {
-      background: #2c3e50;
+      position: relative;
       color: white;
-      padding: 2rem 0;
-      margin-bottom: 2rem;
+      padding: 6rem 0;
+      margin-bottom: 3rem;
+      background: linear-gradient(rgba(28, 61, 90, 0.75), rgba(28, 61, 90, 0.75)), url('ucsd_sunset.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
 
     h1 {
       margin: 0;
-      font-size: 2.5rem;
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      animation: fadeIn 1s ease-out;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      max-width: 900px;
+    }
+
+    .team-section {
+      margin-top: 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .team-member {
+      font-size: 1.1rem;
+      color: var(--text-light);
+    }
+
+    .team-member a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.3s ease;
+    }
+
+    .team-member a:hover {
+      border-color: var(--accent);
     }
 
     .content-section {
       background: white;
-      border-radius: 8px;
-      padding: 2rem;
+      border-radius: 16px;
+      padding: 2.5rem;
       margin-bottom: 2rem;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.06);
+    }
+
+    .content-section:hover {
+      /* transform property removed */
+    }
+
+    .content-section h2 {
+      color: var(--dark-blue);
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+
+    .content-section h3 {
+      color: var(--light-blue);
+      font-size: 1.4rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: 500;
+      letter-spacing: -0.2px;
+    }
+
+    .content-section p {
+      color: #4A5568;
+      font-size: 1.1rem;
+      line-height: 1.7;
     }
 
     .github-link {
-      display: inline-block;
-      padding: 0.8rem 1.5rem;
-      background: #2c3e50;
+      display: inline-flex;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: var(--accent);
       color: white;
       text-decoration: none;
-      border-radius: 4px;
-      margin-top: 1rem;
+      border-radius: 12px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
     }
 
     .github-link:hover {
-      background: #34495e;
+      background: var(--light-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+    }
+
+    ul {
+      padding-left: 1.2rem;
+    }
+
+    ul li {
+      margin: 1rem 0;
+      color: #4A5568;
+      font-size: 1.1rem;
+      padding-left: 0.5rem;
+    }
+
+    /* Code block and dropdown styling */
+    details {
+      margin: 1rem 0;
+      padding: 0.5rem;
+      border-radius: 8px;
+      background-color: #f8f9fa;
+      transition: all 0.3s ease;
+    }
+
+    details[open] {
+      padding-bottom: 1rem;
+    }
+
+    summary {
+      cursor: pointer;
+      padding: 0.5rem;
+      color: var(--light-blue);
+      font-weight: 500;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: '▼';
+      margin-right: 0.5rem;
+      transition: transform 0.3s ease;
+      display: inline-block;
+    }
+
+    details[open] summary::before {
+      content: '▲';
+    }
+
+    pre {
+      background: #2d3748;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 0.5rem 0;
+    }
+
+    code {
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    /* Syntax highlighting */
+    .keyword {
+      color: #f472b6; /* Pink for keywords */
+    }
+    
+    .function {
+      color: #60a5fa; /* Blue for functions */
+    }
+    
+    .string {
+      color: #a5d6a7; /* Green for strings */
+    }
+    
+    .comment {
+      color: #94a3b8; /* Gray for comments */
+      font-style: italic;
+    }
+    
+    .number {
+      color: #fbbf24; /* Yellow for numbers */
+    }
+    
+    .operator {
+      color: #e879f9; /* Purple for operators */
+    }
+
+    .class-name {
+      color: #22d3ee; /* Cyan for class names */
+    }
+
+    .parameter {
+      color: #fb923c; /* Orange for parameters */
     }
   </style>
 </head>
@@ -60,14 +237,26 @@
   <header>
     <div class="container">
       <h1>Defending Against Jailbreaks Using Reinforcement Learning Fine-tuned Reasoning Models</h1>
-      <h3>
-        Quinn Brandt (qbrandt@ucsd.edu)<br>
-        Nathan Ko (nako@ucsd.edu)<br>
-        Kelo Komesu (kkomesu@ucsd.edu)<br>
-        Jeffrey Meredith (jemeredith@ucsd.edu)<br>
-        Andrew Schmitz (aschmitz@ucsd.edu)<br>
-        Mentor: Arya Mazumdar (arya@ucsd.edu)
-      </h3>
+      <div class="team-section">
+        <div class="team-member">
+          <a href="mailto:qbrandt@ucsd.edu">Quinn Brandt</a>
+        </div>
+        <div class="team-member">
+          <a href="mailto:nako@ucsd.edu">Nathan Ko</a>
+        </div>
+        <div class="team-member">
+          <a href="mailto:kkomesu@ucsd.edu">Kelo Komesu</a>
+        </div>
+        <div class="team-member">
+          <a href="mailto:jemeredith@ucsd.edu">Jeffrey Meredith</a>
+        </div>
+        <div class="team-member">
+          <a href="mailto:aschmitz@ucsd.edu">Andrew Schmitz</a>
+        </div>
+        <div class="team-member">
+          <a href="mailto:arya@ucsd.edu">Mentor: Arya Mazumdar</a>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -79,7 +268,133 @@
     </div>
 
     <div class="content-section">
+      <h2>Background</h2>
+      <p>[Example Content] Large Language Models (LLMs) have become increasingly prevalent in various applications, but they
+        can be vulnerable
+        to jailbreaking attempts - where users try to bypass their safety measures. This example background describes how
+        our research could address this critical
+        security challenge by developing robust defense mechanisms using reinforcement learning techniques.</p>
+    </div>
+    
+    <div class="content-section">
+      <h2>Methodology</h2>
+      <h3>Data Collection & Processing</h3>
+      <p>[Example Content] This section demonstrates a potential approach to collecting and analyzing jailbreak attempt
+        data.
+        The example code below shows how we might process and annotate data to create training examples for our models.</p>
+    
+      <details open>
+        <summary>Example Data Collection Script</summary>
+        <pre><code><span class="comment"># Data collection script for jailbreak attempts</span>
+                <span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+                <span class="keyword">from</span> datasets <span class="keyword">import</span> load_dataset
+                
+                <span class="keyword">def</span> <span class="function">collect_jailbreak_data</span>():
+                    <span class="comment"># Load base dataset</span>
+                    dataset = <span class="function">load_dataset</span>(<span class="string">"jailbreak_attempts"</span>)
+                    
+                    <span class="comment"># Filter and process examples</span>
+                    processed_data = []
+                    <span class="keyword">for</span> example <span class="keyword">in</span> dataset:
+                        <span class="keyword">if</span> <span class="function">is_valid_attempt</span>(example):
+                            processed_data.<span class="function">append</span>({
+                                <span class="string">'prompt'</span>: example[<span class="string">'input'</span>],
+                                <span class="string">'response'</span>: example[<span class="string">'output'</span>],
+                                <span class="string">'success'</span>: example[<span class="string">'bypass_detected'</span>],
+                                <span class="string">'defense_strategy'</span>: example[<span class="string">'prevention_method'</span>]
+                            })
+                    
+                    <span class="keyword">return</span> pd.<span class="function">DataFrame</span>(processed_data)</code></pre>
+      </details>
+    
+      <details>
+        <summary>Data Processing Pipeline</summary>
+        <pre><code><span class="keyword">class</span> <span class="class-name">JailbreakDataProcessor</span>:
+                    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="parameter">self</span>):
+                        self.tokenizer = AutoTokenizer.<span class="function">from_pretrained</span>(<span class="string">"defense-model"</span>)
+                    
+                    <span class="keyword">def</span> <span class="function">preprocess</span>(<span class="parameter">self</span>, <span class="parameter">text</span>):
+                        <span class="comment"># Clean and normalize text</span>
+                        text = text.<span class="function">lower</span>().<span class="function">strip</span>()
+                        <span class="keyword">return</span> text
+                    
+                    <span class="keyword">def</span> <span class="function">create_training_example</span>(<span class="parameter">self</span>, <span class="parameter">prompt</span>, <span class="parameter">response</span>):
+                        <span class="comment"># Convert to model-ready format</span>
+                        inputs = self.tokenizer(
+                            prompt,
+                            response,
+                            padding=<span class="string">"max_length"</span>,
+                            truncation=<span class="keyword">True</span>,
+                            max_length=<span class="number">512</span>
+                        )
+                        
+                        <span class="keyword">return</span> {
+                            <span class="string">"input_ids"</span>: inputs[<span class="string">"input_ids"</span>],
+                            <span class="string">"attention_mask"</span>: inputs[<span class="string">"attention_mask"</span>]
+                        }</code></pre>
+      </details>
+    
+      <details>
+        <summary>Dataset Statistics Analysis</summary>
+        <pre><code><span class="keyword">def</span> <span class="function">analyze_dataset</span>(<span class="parameter">df</span>):
+                    <span class="comment"># Calculate key statistics</span>
+                    stats = {
+                        <span class="string">"total_examples"</span>: <span class="function">len</span>(df),
+                        <span class="string">"successful_attempts"</span>: df[<span class="string">"success"</span>].<span class="function">sum</span>(),
+                        <span class="string">"unique_strategies"</span>: df[<span class="string">"defense_strategy"</span>].<span class="function">nunique</span>(),
+                        
+                        <span class="comment"># Distribution of attempt types</span>
+                        <span class="string">"attempt_distribution"</span>: df[<span class="string">"attempt_type"</span>].<span class="function">value_counts</span>(),
+                        
+                        <span class="comment"># Average response length</span>
+                        <span class="string">"avg_response_length"</span>: df[<span class="string">"response"</span>].<span class="function">str</span>.<span class="function">len</span>().<span class="function">mean</span>()
+                    }
+                    
+                    <span class="keyword">return</span> stats</code></pre>
+      </details>
+    
+      <h3>Fine-tuning</h3>
+      <p>[Example Content] This section illustrates potential fine-tuning techniques that could be applied to pre-trained
+        language models,
+        with a focus on how reinforcement learning strategies might enhance jailbreak detection and defense capabilities.
+      </p>
+    
+      <h3>Iterative Development</h3>
+      <p>[Example Content] This example development process demonstrates how an iterative approach could be used to
+        continuously refine
+        models based on performance metrics and newly discovered attack vectors during testing.</p>
+    
+      <h3>Testing</h3>
+      <p>[Example Content] This section outlines example testing protocols that could be implemented to evaluate defense
+        mechanisms
+        against various jailbreaking strategies, showing how we might ensure robust performance across different scenarios.
+      </p>
+    </div>
+    
+    <div class="content-section">
+      <h2>Results</h2>
+      <p>[Example Content] This section presents example findings that demonstrate potential improvements in defending
+        against
+        common jailbreaking techniques. In this hypothetical scenario, the reinforcement learning approach shows particular
+        promise
+        in adapting to new and previously unseen attack patterns.</p>
+    </div>
+    
+    <div class="content-section">
+      <h2>Further Reading</h2>
+      <p>[Example Content] Below are example resources that could provide additional context about LLM security and defense
+        mechanisms:</p>
+      <ul>
+        <li><a href="#">Understanding LLM Security Vulnerabilities (Example Resource)</a></li>
+        <li><a href="#">Reinforcement Learning in AI Safety (Example Resource)</a></li>
+        <li><a href="#">Advanced Defense Mechanisms for Language Models (Example Resource)</a></li>
+        <li><a href="#">Best Practices in AI Security (Example Resource)</a></li>
+      </ul>
+    </div>
+
+    <div class="content-section">
       <h2>Key Features</h2>
+      <p>[Example Content] Here are some potential key features of the project:</p>
       <ul>
         <li>Advanced defense mechanisms against jailbreaking attempts</li>
         <li>Model analysis and vulnerability assessment</li>
@@ -89,7 +404,7 @@
     </div>
 
     <div class="content-section">
-      <h2>Learn More:</h2> 
+      <h2>Learn More</h2>
       <a href="https://github.com/SchmitzAndrew/jailbreak-defense" class="github-link">View on GitHub</a>
     </div>
   </div>
