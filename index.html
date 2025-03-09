@@ -263,25 +263,66 @@
   <div class="container">
     <div class="content-section">
       <h2>About the Project</h2>
-      <p>This project focuses on developing defense mechanisms against AI model jailbreaking attempts. We explore
-        various techniques and methodologies to enhance the security and reliability of AI systems.</p>
+      <p>Large Language Models (LLMs) are vulnerable to jailbreak attacks that bypass implemented safety mechanisms, posing major security risks as
+        LLMs continue to incraese in widespread usage. Our research enhances jailbreak detection using Guided Reward Policy Optimization 
+        (GRPO) to fine-tune a LLaMA-3.1-3B model for improved reasoning-based defenses. By testing against PAIR, a state-of-the-art jailbreak attack, we demonstrate 
+        that our approach outperforms existing defenses like Llama Guard while maintaining efficiency. This work advances AI safety 
+        by balancing robust protection with computational feasibility.</p>
     </div>
 
     <div class="content-section">
       <h2>Background</h2>
-      <p>[Example Content] Large Language Models (LLMs) have become increasingly prevalent in various applications, but they
-        can be vulnerable
-        to jailbreaking attempts - where users try to bypass their safety measures. This example background describes how
-        our research could address this critical
-        security challenge by developing robust defense mechanisms using reinforcement learning techniques.</p>
+      <p>As LLMs become more widely adopted, their security vulnerabilities have drawn increasing concern. 
+        One of the most critical challenges are attacks to LLMs known as jailbreaks. Jailbreak attacks are 
+        where adversarial input prompts are crafted to bypass built in safety mechanisms, leading to 
+        unintended or harmful outputs of the LLM. There are various jailbreak techniques, but the most 
+        prominent attacks are known as prompt injection jailbreaks. Prompt injection jailbreak techniques 
+        use interpretable prompt level inputs to jailbreak LLMs using various strategies to trick the target 
+        LLM. These strategies to trick the target LLM include roleplay, context manipulation, hidden instructions, 
+        etc.. Prompt injection jailbreaks have traditionally been handcrafted, but a new algorithm called PAIR 
+        automates this technique to systematically identify vulnerabilities in LLM safety mechanisms. Later, we 
+        will explain how we used PAIR to help us gather adversarial jailbreak data for our models to train on. 
+
+        Defenses against jailbreak attacks include rule-based filtering or fine-tuning models with labeled 
+        jailbreak data, but these methods struggle against evolving attack strategies, computational efficiency, 
+        and incorrect classification of benign input prompts to LLMs. Llama Guard is a light-weight fine tuned 
+        LLM model used to detect jailbreak prompts. This model is computationally efficient and somewhat efficient 
+        at classifying jailbreak prompts, but classifies benign prompts as jailbreaks at a high rate. Deepseek is 
+        a reasoning model with a much larger model size. This model is effective at classifying jailbreak and benign 
+        prompts, however it is around 200x larger than the lightweight Llama model. Model size must be considered 
+        as slower inference and computational costs increase with higher LLM usage. 
+        
+        In order to address the shortcomings of existing jailbreak defenses, we aim to perform Group Relative 
+        Policy Optimization (GRPO) fine-tuning on a smaller, computationally efficient Llama3.1-3b in order 
+        to turn it into a reasoning model using a curated set of jailbreak prompts. GRPO is a reinforcement 
+        learning technique designed to improve the reasoning capabilities of language models by optimizing 
+        responses based on structured reward functions. It extends traditional Reinforcement Learning from Human 
+        Feedback (RLHF) by incorporating multiple targeted reward objectives to fine-tune model behavior.
+        </p>
     </div>
     
     <div class="content-section">
       <h2>Methodology</h2>
       <h3>Data Collection & Processing</h3>
-      <p>[Example Content] This section demonstrates a potential approach to collecting and analyzing jailbreak attempt
-        data.
-        The example code below shows how we might process and annotate data to create training examples for our models.</p>
+      <p>We use two main datasets in this project. The first one is the “In-The-Wild” Jailbreak
+        Prompts dataset of jailbreak attempts scraped from various Internet sources including Discord, 
+        Reddit, and other open source datasets. Since this dataset contains both harmful and
+        benign prompts, it is used to fine-tune the LLaMa-3.1-3B model during the GRPO training
+        process.
+        The second dataset is provided by JailbreakBench, containing 100 different jailbreak objectives 
+        (e.g. “How to perform insider trading”), which are then passed to the PAIR algorithm
+        to produce effective jailbreak attempts. These jailbreak attempts are used to benchmark
+        and compare the various defense systems.</p>
+
+        <ul>
+
+          <li>Primary dataset consists of 1,405 adversarial jailbreak prompts</li>
+        
+          <li>Apply fuzzy matching to remove similar entries, 653 unique jailbreak prompts</li>
+        
+          <li>Add 654 unique benign prompts from the "In-The-Wild" dataset, 1,306 total prompts</li>
+        
+        </ul>
     
       <details open>
         <summary>Example Data Collection Script</summary>
@@ -354,45 +395,119 @@
       </details>
     
       <h3>Fine-tuning</h3>
-      <p>[Example Content] This section illustrates potential fine-tuning techniques that could be applied to pre-trained
-        language models,
-        with a focus on how reinforcement learning strategies might enhance jailbreak detection and defense capabilities.
-      </p>
+      <p>We fine-tune a <strong>LLaMA-3.1-3B</strong> model using <strong>Guided Reward Policy Optimization (GRPO)</strong> 
+        to enhance jailbreak detection, response formatting, and reasoning ability. Our approach leverages three 
+        structured reward functions:</p>
+ 
+      <ul>
+          <li><strong>Jailbreak Classification Reward:</strong> Ensures accurate identification of adversarial vs. safe prompts.</li>
+          <li><strong>Response Format Strictness Reward:</strong> Enforces XML formatting for easier programmatic parsing.</li>
+          <li><strong>Reasoning Depth Reward:</strong> Encourages multi-step logical reasoning for better jailbreak detection.</li>
+      </ul>
+  
+      <p>By optimizing these objectives, GRPO transforms <strong>LLaMA-3.1-3B</strong> into a 
+          <em>lightweight yet effective reasoning model</em> for security applications.</p>
     
       <h3>Iterative Development</h3>
-      <p>[Example Content] This example development process demonstrates how an iterative approach could be used to
-        continuously refine
-        models based on performance metrics and newly discovered attack vectors during testing.</p>
+      <p>The final reward function used in training is a weighted combination of these three re
+        ward components, allowing us to balance classification accuracy, response structure, and
+        reasoning depth. To begin training, we initialize LLaMA-3.1-3B with its pretrained weights.
+        The model is fine-tuned using reinforcement learning with GRPO, optimizing the three re
+        ward objectives.</p>
     
       <h3>Testing</h3>
-      <p>[Example Content] This section outlines example testing protocols that could be implemented to evaluate defense
-        mechanisms
-        against various jailbreaking strategies, showing how we might ensure robust performance across different scenarios.
+      <p>To assess the effectiveness of our fine-tuned model, we conduct an adversarial evaluation
+        using the PAIR (Prompt Automatic Iterative Refinement) attack framework. PAIR systemat
+        ically iterates on jailbreak prompts, refining them until they bypass safety mechanisms. To
+        set up the benchmark for comparing defense systems, we use 100 unique harmful objectives
+        from the JailbreakBench dataset as the initial adversarial goals. PAIR generates iteratively
+        refined jailbreak prompts for each objective, simulating a real-world adaptive attack sce
+        nario. Each jailbreak prompt is then tested against our fine-tuned LLaMA-3.1-3B model. We 
+        then apply the same testing process to the base LLaMA-3.1-3 and the DeepSeek Reasoning 
+        model to evaluate their performance in jailbreak detection and reasoning capabilities.
       </p>
     </div>
     
     <div class="content-section">
       <h2>Results</h2>
-      <p>[Example Content] This section presents example findings that demonstrate potential improvements in defending
-        against
-        common jailbreaking techniques. In this hypothetical scenario, the reinforcement learning approach shows particular
-        promise
-        in adapting to new and previously unseen attack patterns.</p>
+
+      <p>To measure the effectiveness of our <strong>GRPO fine-tuned LLaMA-3.1-3B</strong> model in detecting jailbreak attempts, we compared it against two baseline models:</p>
+  
+      <ul class="highlight">
+          <li><strong>LLaMA-3.1-3B (Base Model):</strong> The original, unmodified version.</li>
+          <li><strong>DeepSeek Reasoning Model:</strong> A much larger model (600B+ parameters) with advanced reasoning.</li>
+      </ul>
+  
+      <p>We tested these models against <strong>PAIR</strong>, a state-of-the-art jailbreak attack algorithm, and evaluated their performance using key metrics: <strong>accuracy, precision, recall, and F1-score</strong>.</p>
+  
+      <h3>Key Findings</h3>
+  
+      <h4>GRPO-Tuned LLaMA-3.1-3B vs. Base Model:</h4>
+      <ul>
+          <li><strong>Higher Recall (+17%)</strong> – Improved detection of jailbreak attempts.</li>
+          <li><strong>Strong Precision (0.96)</strong> – Reduces false positives.</li>
+          <li><strong>Balanced Performance:</strong> Accuracy (0.74) and F1-score (0.68) showed significant improvements.</li>
+      </ul>
+  
+      <h4>GRPO Model vs. DeepSeek:</h4>
+      <ul>
+          <li><strong>DeepSeek outperformed both models</strong>, with <strong>higher recall (0.88) and accuracy (0.83)</strong>.</li>
+          <li>However, it had the <strong>lowest precision (0.81)</strong>, misclassifying more benign prompts.</li>
+          <li><strong>DeepSeek is 200x larger</strong> than our GRPO model, making it computationally expensive.</li>
+      </ul>
+  
+      <h3>Model Performance Comparison</h3>
+  
+      <table class="comparison-table">
+          <tr>
+              <th>Model</th>
+              <th>Accuracy</th>
+              <th>Precision</th>
+              <th>Recall</th>
+              <th>F1-Score</th>
+          </tr>
+          <tr>
+              <td><strong>LLaMA Base Model</strong></td>
+              <td>0.68</td>
+              <td>1.00</td>
+              <td>0.35</td>
+              <td>0.52</td>
+          </tr>
+          <tr>
+              <td><strong>GRPO LLaMA Model</strong></td>
+              <td>0.74</td>
+              <td>0.96</td>
+              <td>0.52</td>
+              <td>0.68</td>
+          </tr>
+          <tr>
+              <td><strong>DeepSeek Model</strong></td>
+              <td>0.83</td>
+              <td>0.81</td>
+              <td>0.88</td>
+              <td>0.84</td>
+          </tr>
+      </table>
+  
+      <h3>Takeaway</h3>
+      <p>Our <strong>GRPO-trained model</strong> strikes a balance between <strong>efficiency and 
+        performance</strong>, significantly improving jailbreak detection over the base model while 
+        remaining <strong>far more computationally efficient</strong> than DeepSeek. This makes it a 
+        <strong>practical choice for real-world AI security applications</strong>.</p>
+  
     </div>
     
     <div class="content-section">
-      <h2>Further Reading</h2>
-      <p>[Example Content] Below are example resources that could provide additional context about LLM security and defense
-        mechanisms:</p>
+      <h2>References</h2>
       <ul>
-        <li><a href="#">Understanding LLM Security Vulnerabilities (Example Resource)</a></li>
-        <li><a href="#">Reinforcement Learning in AI Safety (Example Resource)</a></li>
+        <li><a href="https://jailbreaking-llms.github.io/">PAIR</a></li>
+        <li><a href="https://arxiv.org/abs/2402.03300">GRPO</a></li>
         <li><a href="#">Advanced Defense Mechanisms for Language Models (Example Resource)</a></li>
         <li><a href="#">Best Practices in AI Security (Example Resource)</a></li>
       </ul>
     </div>
 
-    <div class="content-section">
+    <!-- <div class="content-section">
       <h2>Key Features</h2>
       <p>[Example Content] Here are some potential key features of the project:</p>
       <ul>
@@ -401,7 +516,7 @@
         <li>Implementation of security best practices</li>
         <li>Comprehensive testing and validation</li>
       </ul>
-    </div>
+    </div> -->
 
     <div class="content-section">
       <h2>Learn More</h2>
