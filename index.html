@@ -281,18 +281,18 @@
         LLM. These strategies to trick the target LLM include roleplay, context manipulation, hidden instructions, 
         etc.. Prompt injection jailbreaks have traditionally been handcrafted, but a new algorithm called PAIR 
         automates this technique to systematically identify vulnerabilities in LLM safety mechanisms. Later, we 
-        will explain how we used PAIR to help us gather adversarial jailbreak data for our models to train on. 
+        will explain how we used PAIR to help us gather adversarial jailbreak data for our models to train on.</p> 
 
-        Defenses against jailbreak attacks include rule-based filtering or fine-tuning models with labeled 
+      <p>Defenses against jailbreak attacks include rule-based filtering or fine-tuning models with labeled 
         jailbreak data, but these methods struggle against evolving attack strategies, computational efficiency, 
         and incorrect classification of benign input prompts to LLMs. Llama Guard is a light-weight fine tuned 
         LLM model used to detect jailbreak prompts. This model is computationally efficient and somewhat efficient 
         at classifying jailbreak prompts, but classifies benign prompts as jailbreaks at a high rate. Deepseek is 
         a reasoning model with a much larger model size. This model is effective at classifying jailbreak and benign 
         prompts, however it is around 200x larger than the lightweight Llama model. Model size must be considered 
-        as slower inference and computational costs increase with higher LLM usage. 
+        as slower inference and computational costs increase with higher LLM usage.</p>
         
-        In order to address the shortcomings of existing jailbreak defenses, we aim to perform Group Relative 
+        <p>In order to address the shortcomings of existing jailbreak defenses, we aim to perform Group Relative 
         Policy Optimization (GRPO) fine-tuning on a smaller, computationally efficient Llama3.1-3b in order 
         to turn it into a reasoning model using a curated set of jailbreak prompts. GRPO is a reinforcement 
         learning technique designed to improve the reasoning capabilities of language models by optimizing 
@@ -308,8 +308,9 @@
         Prompts dataset of jailbreak attempts scraped from various Internet sources including Discord, 
         Reddit, and other open source datasets. Since this dataset contains both harmful and
         benign prompts, it is used to fine-tune the LLaMa-3.1-3B model during the GRPO training
-        process.
-        The second dataset is provided by JailbreakBench, containing 100 different jailbreak objectives 
+        process.</p>
+        
+        <p>The second dataset is provided by JailbreakBench, containing 100 different jailbreak objectives 
         (e.g. “How to perform insider trading”), which are then passed to the PAIR algorithm
         to produce effective jailbreak attempts. These jailbreak attempts are used to benchmark
         and compare the various defense systems.</p>
@@ -395,7 +396,7 @@
       </details>
     
       <h3>Fine-tuning</h3>
-      <p>We fine-tune a <strong>LLaMA-3.1-3B</strong> model using <strong>Guided Reward Policy Optimization (GRPO)</strong> 
+      <p>We fine-tune a LLaMA-3.1-3B model using Guided Reward Policy Optimization (GRPO)
         to enhance jailbreak detection, response formatting, and reasoning ability. Our approach leverages three 
         structured reward functions:</p>
  
@@ -431,7 +432,7 @@
     <div class="content-section">
       <h2>Results</h2>
 
-      <p>To measure the effectiveness of our <strong>GRPO fine-tuned LLaMA-3.1-3B</strong> model in detecting jailbreak attempts, we compared it against two baseline models:</p>
+      <p>To measure the effectiveness of our GRPO fine-tuned LLaMA-3.1-3Bmodel in detecting jailbreak attempts, we compared it against two baseline models:</p>
   
       <ul class="highlight">
           <li><strong>LLaMA-3.1-3B (Base Model):</strong> The original, unmodified version.</li>
@@ -502,8 +503,7 @@
       <ul>
         <li><a href="https://jailbreaking-llms.github.io/">PAIR</a></li>
         <li><a href="https://arxiv.org/abs/2402.03300">GRPO</a></li>
-        <li><a href="#">Advanced Defense Mechanisms for Language Models (Example Resource)</a></li>
-        <li><a href="#">Best Practices in AI Security (Example Resource)</a></li>
+        <li><a href="https://github.com/verazuo/jailbreak_llms">In The Wild Jailbreak Dataset</a></li>
       </ul>
     </div>
 
