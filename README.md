@@ -4,12 +4,12 @@
 
 This project fine-tunes a **Llama-3.2 (3B) model using GRPO** to classify user prompts as **jailbreak attempts** or **benign requests**. By leveraging reinforcement learning with reward modeling, the model provides **step-by-step reasoning** before making a final classification decision.
 
-🔗 **Project Website:** [INSERT_PROJECT_WEBSITE_LINK]
+🔗 [**Project Website**](https://schmitzandrew.github.io/jailbreak-defense/)
 
 📄 **Poster & Report:**
 
-- 📜 [Project Poster](INSERT_POSTER_LINK)
-- 📑 [Project Report](INSERT_REPORT_LINK)
+- 📜 [Project Poster](https://drive.google.com/file/d/1X2G3Fx5L5WVR5jPfUgp_hHmj7vabUI6R/view?usp=sharing)
+- 📑 [Project Report](https://drive.google.com/file/d/1VNaVNTf60Uy2FmKO7suancEHAupcU7nM/view?usp=sharing)
 
 ## 🔍 Quick Navigation
 
@@ -19,7 +19,7 @@ This project fine-tunes a **Llama-3.2 (3B) model using GRPO** to classify user p
 
 ---
 
-## 🎯 How to Run Inference With GRPO Finetuned Model
+## How to Run Inference With GRPO Finetuned Model
 
 To classify a user input as **jailbreak** or **benign**, follow these steps:
 
@@ -50,7 +50,7 @@ print("Label:", label)
 print("Reasoning:", reasoning)
 ```
 
-## 🔥 How to Produce Jailbreak Attempts with PAIR
+## How to Produce Jailbreak Attempts with PAIR
 
 PAIR (Prompt Automatic Iterative Refinement) generates adversarial jailbreak prompts. Follow these steps to run PAIR on **Open Source LLMs**:
 
@@ -88,7 +88,7 @@ python DSC_180A/new_test_open_source.py
 
 After running the PAIR demo, the generated jailbreak prompts and chat history between the LLMs will be saved in `DSC_180A/results/new_open_source_results.json`.
 
-## 📈 How to Perform Further Finetuning on the Model
+## How to Perform Further Finetuning on the Model
 If you’d like to further fine-tune the model using GRPO, follow these steps:
 
 ### 1️⃣ Install Dependencies
