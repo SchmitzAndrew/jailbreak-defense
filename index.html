@@ -331,7 +331,7 @@
       <details open>
         <summary>Data Processing</summary>
         <pre><code><span class="comment"># Load required libraries</span>
-                                                        <span class="keyword">from</span> datasets <span class="keyword">import</span> load_dataset, Dataset
+                <span class="keyword">from</span> datasets <span class="keyword">import</span> load_dataset, Dataset
                 <span class="keyword">import</span> pandas <span class="keyword">as</span> pd
                 <span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm
                 <span class="keyword">from</span> rapidfuzz <span class="keyword">import</span> fuzz
@@ -424,11 +424,11 @@
       </details>
 
       <h3>Iterative Development</h3>
-      <p>The final reward function used in training is a weighted combination of these three re
-        ward components, allowing us to balance classification accuracy, response structure, and
+      <p>The final reward function used in training is a weighted combination of these three reward
+        components, allowing us to balance classification accuracy, response structure, and
         reasoning depth. To begin training, we initialize LLaMA-3.1-3B with its pretrained weights.
-        The model is fine-tuned using reinforcement learning with GRPO, optimizing the three re
-        ward objectives.</p>
+        The model is fine-tuned using reinforcement learning with GRPO, optimizing the three reward
+        objectives.</p>
     
       <h3>Testing</h3>
       <p>To assess the effectiveness of our fine-tuned model, we conduct an adversarial evaluation
@@ -456,6 +456,8 @@
       <p>We tested these models against <strong>PAIR</strong>, a state-of-the-art jailbreak attack algorithm, and evaluated their performance using key metrics: <strong>accuracy, precision, recall, and F1-score</strong>.</p>
   
       <h3>Key Findings</h3>
+
+      <img src="results/images/radarchart.png" alt="Radar Chart" style="display: block; margin: auto; max-width: 60%;">
   
       <h4>GRPO-Tuned LLaMA-3.1-3B vs. Base Model:</h4>
       <ul>
