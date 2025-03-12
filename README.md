@@ -50,6 +50,8 @@ print("Label:", label)
 print("Reasoning:", reasoning)
 ```
 
+> ⚠️ **Warning:** If you get Out of Memory errors, try using Google Colab to run with cloud resources.
+
 ## How to Produce Jailbreak Attempts with PAIR
 
 PAIR (Prompt Automatic Iterative Refinement) generates adversarial jailbreak prompts. Follow these steps to run PAIR on **Open Source LLMs**:
@@ -98,5 +100,6 @@ pip install -r requirements.txt
 
 ### 2️⃣ Run the Finetuning Notebook
 
-- Open and run the cells in `model/llama_grpo_final.ipynb`
-- **If you run into Out-of-Memory errors, use Google Colab for cloud-based training.**
+Open and run the cells in `model/llama_grpo_final.ipynb`
+
+> ⚠️ **Warning:** If you get Out of Memory errors, try using Google Colab to run with cloud resources.
